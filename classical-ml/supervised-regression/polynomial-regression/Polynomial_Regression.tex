@@ -1,0 +1,792 @@
+% ==============================================================================
+% Machine Learning & Statistical Theory Notes — Polynomial Regression
+% Author: Noted by Md. Inzamamul Lohani (Software Engineering, IIT, DU)
+% Architecture: Article-based Notes with Section / Subsection Hierarchy
+% Compile: pdflatex polynomial_regression.tex && pdflatex polynomial_regression.tex
+% ==============================================================================
+
+\documentclass[11pt,a4paper]{article}
+
+% ==================== Core Packages ====================
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=25mm,headheight=15pt]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage{graphicx}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage[section]{placeins}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\usepackage{caption}
+
+% Number equations per section (e.g., (1.1), (1.2))
+\numberwithin{equation}{section}
+
+% ==================== Color Palette ====================
+\definecolor{Navy}{HTML}{17324D}        % Primary headings, main emphasis
+\definecolor{Blue}{HTML}{2878B5}        % Secondary headings, key idea frame
+\definecolor{Teal}{HTML}{168477}        % Sub-headings, intuition frame
+\definecolor{Gold}{HTML}{D18B26}        % Warnings, alerts frame
+\definecolor{PaleBlue}{HTML}{EDF5FB}    % Key idea background
+\definecolor{PaleTeal}{HTML}{EAF6F3}    % Intuition background
+\definecolor{PaleGold}{HTML}{FFF6E6}    % Warning background
+\definecolor{Ink}{HTML}{263238}         % Body text
+\definecolor{Muted}{HTML}{61717D}       % Headers, footers, meta text
+\definecolor{CodeBg}{HTML}{F7F8FA}      % Code block background
+\definecolor{CodeGreen}{HTML}{236E41}   % Code comments
+\definecolor{CodePurple}{HTML}{73378C}  % Code strings
+
+% ==================== Topic & Metadata Definition ====================
+\newcommand{\topicname}{Polynomial Regression}
+
+% ==================== Hyperlink Setup ====================
+\hypersetup{
+  colorlinks=true,
+  linkcolor=Navy,
+  urlcolor=Blue,
+  citecolor=Teal,
+  pdftitle={\topicname\ Notes},
+  pdfauthor={Md. Inzamamul Lohani}
+}
+
+% Graphics directory
+\graphicspath{{figures/}}
+
+% Paragraph & list spacing
+\setlength{\parskip}{5pt}
+\setlength{\parindent}{0pt}
+\setlist[itemize]{leftmargin=1.5em,itemsep=2pt,topsep=3pt}
+\setlist[enumerate]{leftmargin=1.7em,itemsep=3pt,topsep=3pt}
+\captionsetup{font=small,labelfont=bf}
+
+% ==================== Styled Callout Boxes ====================
+% 1. Key Idea Box (Blue)
+\newtcolorbox{keyidea}[1][]{
+  enhanced,breakable,
+  colback=PaleBlue,colframe=Blue,
+  boxrule=.7pt,arc=2mm,
+  left=3.5mm,right=3.5mm,top=2.5mm,bottom=2.5mm,
+  title=Key idea,fonttitle=\bfseries\color{Navy},
+  #1
+}
+
+% 2. Intuition Box (Teal)
+\newtcolorbox{intuition}[1][]{
+  enhanced,breakable,
+  colback=PaleTeal,colframe=Teal,
+  boxrule=.7pt,arc=2mm,
+  left=3.5mm,right=3.5mm,top=2.5mm,bottom=2.5mm,
+  title=Intuition,fonttitle=\bfseries\color{Navy},
+  #1
+}
+
+% 3. Warning / Important Note Box (Gold)
+\newtcolorbox{warningbox}[1][]{
+  enhanced,breakable,
+  colback=PaleGold,colframe=Gold,
+  boxrule=.7pt,arc=2mm,
+  left=3.5mm,right=3.5mm,top=2.5mm,bottom=2.5mm,
+  title=Important note,fonttitle=\bfseries\color{Navy},
+  #1
+}
+
+% 4. Worked Example Box (Clean border)
+\newtcolorbox{worked}[1][]{
+  enhanced,breakable,
+  colback=white,colframe=Muted!65,
+  boxrule=.6pt,arc=2mm,
+  left=3.5mm,right=3.5mm,top=2.5mm,bottom=2.5mm,
+  title=Worked example,fonttitle=\bfseries\color{Navy},
+  #1
+}
+
+% ==================== Code Block Styling ====================
+\lstdefinestyle{pythonstyle}{
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{Navy}\bfseries,
+  commentstyle=\color{CodeGreen}\itshape,
+  stringstyle=\color{CodePurple},
+  backgroundcolor=\color{CodeBg},
+  frame=single,
+  rulecolor=\color{black!15},
+  breaklines=true,
+  showstringspaces=false,
+  numbers=left,
+  numberstyle=\tiny\color{Muted},
+  xleftmargin=1.5em,
+  framexleftmargin=1.2em
+}
+\lstset{style=pythonstyle}
+
+% ==================== Header & Footer Setup ====================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Machine Learning}
+\fancyhead[R]{\topicname}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% ==================== Section Headings Styling ====================
+\titleformat{\section}
+  {\Large\bfseries\color{Navy}}{\thesection\quad}{0pt}{}
+\titlespacing*{\section}{0pt}{14pt}{8pt}
+
+\titleformat{\subsection}
+  {\large\bfseries\color{Navy}}{\thesubsection\quad}{0pt}{}
+\titlespacing*{\subsection}{0pt}{10pt}{5pt}
+
+\titleformat{\subsubsection}
+  {\normalsize\bfseries\color{Teal}}{\thesubsubsection\quad}{0pt}{}
+\titlespacing*{\subsubsection}{0pt}{8pt}{4pt}
+
+% ==================== Helpful Mathematical Notation ====================
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\E}{\operatorname{E}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\RSS}{\operatorname{RSS}}
+\newcommand{\argmin}{\operatorname*{arg\,min}}
+\newcommand{\argmax}{\operatorname*{arg\,max}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+% Vector & Matrix Bold Notation
+\newcommand{\X}{\mathbf{X}}
+\newcommand{\y}{\mathbf{y}}
+\newcommand{\I}{\mathbf{I}}
+\newcommand{\bta}{\boldsymbol{\beta}}
+\newcommand{\bhat}{\widehat{\boldsymbol{\beta}}}
+\newcommand{\eps}{\boldsymbol{\varepsilon}}
+
+% ==============================================================================
+% DOCUMENT BODY
+% ==============================================================================
+\begin{document}
+
+% ==================== Title Page ====================
+\begin{titlepage}
+  \centering
+  \vspace*{\fill}
+  {\Huge\bfseries \topicname\par}
+  \vspace{2.5em}
+  {\large Noted by Md. Inzamamul Lohani\par}
+  \vspace{0.4em}
+  {\large Software Engineering, IIT, DU\par}
+  \vspace{2em}
+  {\large \today\par}
+  \vspace*{\fill}
+\end{titlepage}
+
+\setcounter{page}{2}
+\begingroup
+\enlargethispage{1.0cm}
+\setlength{\parskip}{0pt}
+\tableofcontents
+\endgroup
+\newpage
+
+% ==============================================================================
+\section{The Big Picture \& Motivation}
+% ==============================================================================
+
+\subsection{Why Do We Need Polynomial Regression?}
+In standard Ordinary Least Squares (OLS) Linear Regression, we assume that the relationship between the independent predictor $x \in \RR$ and the continuous response variable $y \in \RR$ is linear:
+\begin{equation}
+  y = \beta_0 + \beta_1 x + \varepsilon, \quad \varepsilon \sim \mathcal{N}(0, \sigma^2).
+\end{equation}
+This formulation enforces a strict constraint: the rate of change of $y$ with respect to $x$ is constant ($\frac{\partial y}{\partial x} = \beta_1$). 
+
+However, real-world phenomena rarely adhere to strict straight lines. Consider familiar scenarios:
+\begin{itemize}
+  \item \textbf{Economics \& Utility:} Diminishing marginal returns, where additional investments yield progressively smaller gains.
+  \item \textbf{Physics \& Kinetics:} Braking distance of a vehicle, which grows quadratically with vehicle velocity ($d \propto v^2$).
+  \item \textbf{Medicine \& Pharmacology:} Dose-response curves, where drug efficacy increases, plateaus, and can eventually become toxic at high concentrations.
+  \item \textbf{Education \& Cognition:} Exam performance vs.\ hours spent studying, where initial hours provide substantial improvements, followed by saturation and burnout.
+\end{itemize}
+
+When we fit a straight line to inherently curved data, the model suffers from severe \textbf{systematic bias} (underfitting). The residuals display distinct non-random parabolic or cyclical patterns rather than white noise.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{01_linear_vs_nonlinear.png}
+  \caption{Comparison of Linear Regression vs.\ Polynomial Regression on nonlinear data. In (a), a linear model suffers from high bias, producing large systematic residuals. In (b), a degree-2 polynomial smoothly tracks the data's true underlying curvature.}
+  \label{fig:linear_vs_poly}
+\end{figure}
+
+\begin{keyidea}[title=Core Motivation of Polynomial Regression]
+Polynomial Regression expands the hypothesis class of linear models to fit nonlinear curves by adding powers of original predictors ($x^2, x^3, \dots, x^d$) as new input features, while keeping the estimation problem entirely linear with respect to the unknown coefficients $\bta$.
+\end{keyidea}
+
+\subsection{What Exactly is a Polynomial?}
+A polynomial in a single real variable $x$ is a mathematical expression composed of variables and coefficients involving only the operations of addition, subtraction, multiplication, and non-negative integer exponents:
+\begin{equation}
+  P(x) = \beta_0 + \beta_1 x + \beta_2 x^2 + \dots + \beta_d x^d = \sum_{j=0}^d \beta_j x^j.
+\end{equation}
+The highest power $d \in \mathbb{N}_0$ with a non-zero coefficient $\beta_d \neq 0$ is called the \textbf{degree} of the polynomial.
+
+\begin{itemize}
+  \item \textbf{Degree 0 (Constant):} $y = \beta_0$ (horizontal flat line, 0 turning points).
+  \item \textbf{Degree 1 (Linear):} $y = \beta_0 + \beta_1 x$ (sloped straight line, 0 turning points).
+  \item \textbf{Degree 2 (Quadratic):} $y = \beta_0 + \beta_1 x + \beta_2 x^2$ (parabola, exactly 1 turning point / vertex).
+  \item \textbf{Degree 3 (Cubic):} $y = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3$ (S-shaped curve, inflection point, up to 2 turning points).
+  \item \textbf{Degree 4 (Quartic):} $y = \beta_0 + \beta_1 x + \dots + \beta_4 x^4$ (W or M-shaped curve, up to 3 turning points).
+\end{itemize}
+
+\begin{intuition}[title=Geometric Intuition of Degree \& Turning Points]
+A polynomial of degree $d$ can have at most $d - 1$ turning points (local extrema where the first derivative $\frac{dP}{dx} = 0$). Increasing the degree allows the function to bend more frequently, enabling it to fit complex curves.
+\end{intuition}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\textwidth]{02_polynomial_degrees.png}
+  \caption{Geometric behavior of polynomial functions across degrees $d \in \{1, 2, 3, 4\}$. Notice that degree $d$ introduces up to $d-1$ local extrema and inflection points.}
+  \label{fig:poly_degrees}
+\end{figure}
+
+\subsection{The Crucial Distinction: Linear in Parameters, Nonlinear in Features}
+A common point of confusion for beginners is why Polynomial Regression is classified as a \textit{linear} regression technique when its graph is clearly a curve.
+
+\begin{warningbox}[title=The Fundamental Definition of Linearity in Machine Learning]
+A regression model is defined as \textbf{linear} if it is linear in its \textbf{parameters (coefficients)} $\bta$, regardless of how nonlinear the transformations of the input features $\mathbf{x}$ may be!
+\end{warningbox}
+
+Consider the quadratic model:
+\begin{equation}
+  y = \beta_0 + \beta_1 x + \beta_2 x^2 + \varepsilon.
+\end{equation}
+Let us define new synthesized variables:
+\begin{equation}
+  z_1 = x, \quad z_2 = x^2.
+\end{equation}
+Rewriting the equation with these transformed features yields:
+\begin{equation}
+  y = \beta_0 + \beta_1 z_1 + \beta_2 z_2 + \varepsilon.
+\end{equation}
+This is a standard multiple linear regression model in two variables $z_1$ and $z_2$. Because no coefficient is multiplied by another coefficient, raised to a power, or nested inside a nonlinear function (such as $e^{\beta_1 x}$ or $\sin(\beta_1 x)$), the loss function remains quadratic and convex with respect to $\bta$. Consequently, all analytical properties and algorithms of linear regression—including the OLS closed-form normal equations—apply directly.
+
+\subsection{Comparison Table: Linear vs.\ Polynomial vs.\ Non-Parametric Models}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries}l >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X}
+\toprule
+Property & Simple Linear Regression & Polynomial Regression & Non-Parametric (e.g., Splines) \\
+\midrule
+Hypothesis Class & Straight lines ($d=1$) & Global polynomials of degree $d$ & Piecewise polynomials / kernels \\
+Linear in Parameters? & Yes & Yes & Varies by model \\
+Optimization & Closed-form OLS & Closed-form OLS & Convex / constrained quadratic \\
+Feature Space & $\RR^1 \to \RR^1$ & $\RR^1 \to \RR^{d}$ (powers) & Infinite or localized basis \\
+Boundary Behavior & Stable extrapolation & Highly unstable (Runge's effect) & Controlled boundary constraints \\
+Computational Cost & $O(n)$ & $O(n d^2 + d^3)$ & Moderate to high \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+
+% ==============================================================================
+\section{Mathematical Formulation \& Normal Equations}
+% ==============================================================================
+
+\subsection{The Univariate Polynomial Regression Model}
+Given a dataset of $n$ paired observations $\{(x_i, y_i)\}_{i=1}^n$, a univariate polynomial regression model of degree $d$ expresses the target $y_i$ as:
+\begin{equation}
+  y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \dots + \beta_d x_i^d + \varepsilon_i, \quad i = 1, \dots, n,
+  \label{eq:scalar_model}
+\end{equation}
+where:
+\begin{itemize}
+  \item $\beta_0$ is the intercept parameter (expected value of $y$ when $x = 0$).
+  \item $\beta_1, \beta_2, \dots, \beta_d$ are the polynomial regression coefficients.
+  \item $\varepsilon_i$ is the unobserved random error term satisfying Gauss-Markov assumptions: $\E[\varepsilon_i] = 0$, $\Var(\varepsilon_i) = \sigma^2$, and $\Cov(\varepsilon_i, \varepsilon_k) = 0$ for $i \neq k$.
+\end{itemize}
+
+\subsection{The Vandermonde Design Matrix Representation}
+To solve for the optimal coefficients simultaneously, we assemble all $n$ equations into compact matrix-vector notation:
+\begin{equation}
+  \y = \X \bta + \eps,
+  \label{eq:matrix_poly_model}
+\end{equation}
+where:
+\begin{equation}
+  \y = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{bmatrix} \in \RR^{n \times 1}, \quad
+  \bta = \begin{bmatrix} \beta_0 \\ \beta_1 \\ \beta_2 \\ \vdots \\ \beta_d \end{bmatrix} \in \RR^{(d+1) \times 1}, \quad
+  \eps = \begin{bmatrix} \varepsilon_1 \\ \varepsilon_2 \\ \vdots \\ \varepsilon_n \end{bmatrix} \in \RR^{n \times 1}.
+\end{equation}
+The matrix $\X \in \RR^{n \times (d+1)}$ is the celebrated \textbf{Vandermonde Design Matrix}:
+\begin{equation}
+  \X = \begin{bmatrix}
+    1 & x_1 & x_1^2 & \dots & x_1^d \\
+    1 & x_2 & x_2^2 & \dots & x_2^d \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    1 & x_n & x_n^2 & \dots & x_n^d
+  \end{bmatrix}.
+  \label{eq:vandermonde}
+\end{equation}
+Each row corresponds to an individual sample whose original scalar value $x_i$ has been mapped into a $(d+1)$-dimensional feature vector:
+\begin{equation}
+  \phi(x_i) = \begin{bmatrix} 1 & x_i & x_i^2 & \dots & x_i^d \end{bmatrix} \in \RR^{1 \times (d+1)}.
+\end{equation}
+
+\subsection{First-Principles Derivation of the OLS Estimator}
+We seek the optimal coefficient vector $\bhat$ that minimizes the Residual Sum of Squares ($\RSS$):
+\begin{equation}
+  \RSS(\bta) = \sum_{i=1}^n \left( y_i - \hat{y}_i \right)^2 = \sum_{i=1}^n \left( y_i - \sum_{j=0}^d \beta_j x_i^j \right)^2.
+\end{equation}
+In vector notation, the residual vector is $\mathbf{e} = \y - \X\bta$, so the objective function is:
+\begin{align}
+  J(\bta) &= \norm{\y - \X\bta}_2^2 \nonumber \\
+          &= (\y - \X\bta)^T (\y - \X\bta) \nonumber \\
+          &= \y^T\y - \y^T\X\bta - \bta^T\X^T\y + \bta^T\X^T\X\bta.
+\end{align}
+Because $\y^T\X\bta$ is a scalar, it equals its transpose $\bta^T\X^T\y$. Hence:
+\begin{equation}
+  J(\bta) = \y^T\y - 2\y^T\X\bta + \bta^T\X^T\X\bta.
+  \label{eq:expanded_loss}
+\end{equation}
+
+To find the minimizer, we compute the gradient with respect to $\bta$:
+\begin{equation}
+  \nabla_{\bta} J(\bta) = \frac{\partial}{\partial \bta} \left[ \y^T\y - 2\y^T\X\bta + \bta^T\X^T\X\bta \right] = -2\X^T\y + 2\X^T\X\bta.
+\end{equation}
+Setting the gradient vector equal to zero:
+\begin{equation}
+  -2\X^T\y + 2\X^T\X\bta = \mathbf{0} \implies \boxed{\X^T\X\bta = \X^T\y.}
+  \label{eq:normal_eqs}
+\end{equation}
+Equation~\eqref{eq:normal_eqs} is the system of \textbf{Normal Equations}. Provided that the columns of $\X$ are linearly independent (which requires at least $d+1$ distinct $x_i$ values and $n \geq d+1$), the Gram matrix $\X^T\X$ is positive-definite and invertible. Multiplying by $(\X^T\X)^{-1}$:
+\begin{equation}
+  \boxed{\bhat = (\X^T\X)^{-1}\X^T\y.}
+  \label{eq:ols_solution}
+\end{equation}
+
+\begin{intuition}[title=Geometric Projection in Polynomial Space]
+The vector of fitted values $\hat{\y} = \X\bhat = \X(\X^T\X)^{-1}\X^T\y = \mathbf{H}\y$ is the orthogonal projection of the observed data vector $\y \in \RR^n$ onto the column space $\operatorname{col}(\X) \subset \RR^n$, where $\mathbf{H}$ is the hat matrix. The residual vector $\mathbf{e} = \y - \hat{\y}$ is strictly orthogonal to every polynomial basis column: $\X^T \mathbf{e} = \mathbf{0}$.
+\end{intuition}
+
+
+% ==============================================================================
+\section{Model Fitting: A Complete Worked Numerical Example}
+% ==============================================================================
+
+To master the matrix mechanics of polynomial regression, we now work through a complete, unrounded numerical calculation from scratch.
+
+\subsection{The Dataset and Problem Definition}
+Suppose an educational researcher investigates the relationship between the number of hours students study ($X$) and their resulting examination score ($Y$). We collect $n=4$ observations:
+
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+Student index ($i$) & 1 & 2 & 3 & 4 \\
+\midrule
+Study Hours ($x_i$) & 0 & 1 & 2 & 3 \\
+Exam Score ($y_i$)  & 2 & 5 & 6 & 12 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+We wish to fit a degree-2 quadratic polynomial:
+\begin{equation}
+  \hat{y} = \beta_0 + \beta_1 x + \beta_2 x^2.
+\end{equation}
+
+\subsection{Step-by-Step Construction of the Design Matrix}
+Our feature space requires three columns: the intercept ($x^0 = 1$), the linear term ($x^1 = x$), and the quadratic term ($x^2$).
+
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+Sample $i$ & $x_i$ & $y_i$ & Basis: $[1, x_i, x_i^2]$ \\
+\midrule
+1 & 0 & 2  & $[1, 0, 0]$ \\
+2 & 1 & 5  & $[1, 1, 1]$ \\
+3 & 2 & 6  & $[1, 2, 4]$ \\
+4 & 3 & 12 & $[1, 3, 9]$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Assembling the matrices:
+\begin{equation}
+  \X = \begin{bmatrix}
+    1 & 0 & 0 \\
+    1 & 1 & 1 \\
+    1 & 2 & 4 \\
+    1 & 3 & 9
+  \end{bmatrix} \in \RR^{4 \times 3}, \quad
+  \y = \begin{bmatrix}
+    2 \\ 5 \\ 6 \\ 12
+  \end{bmatrix} \in \RR^{4 \times 1}.
+\end{equation}
+
+\subsection{Computing the Gram Matrix \texorpdfstring{$\X^T\X$}{X\textasciicircum T X}}
+The transpose $\X^T \in \RR^{3 \times 4}$ is:
+\begin{equation}
+  \X^T = \begin{bmatrix}
+    1 & 1 & 1 & 1 \\
+    0 & 1 & 2 & 3 \\
+    0 & 1 & 4 & 9
+  \end{bmatrix}.
+\end{equation}
+Multiplying $\X^T$ by $\X$:
+\begin{equation}
+  \X^T\X = \begin{bmatrix}
+    1 & 1 & 1 & 1 \\
+    0 & 1 & 2 & 3 \\
+    0 & 1 & 4 & 9
+  \end{bmatrix}
+  \begin{bmatrix}
+    1 & 0 & 0 \\
+    1 & 1 & 1 \\
+    1 & 2 & 4 \\
+    1 & 3 & 9
+  \end{bmatrix}.
+\end{equation}
+Evaluating each element individually:
+\begin{align*}
+  [\X^T\X]_{11} &= 1(1) + 1(1) + 1(1) + 1(1) = 4, \\
+  [\X^T\X]_{12} &= 1(0) + 1(1) + 1(2) + 1(3) = 6, \\
+  [\X^T\X]_{13} &= 1(0) + 1(1) + 1(4) + 1(9) = 14, \\
+  [\X^T\X]_{22} &= 0(0) + 1(1) + 2(2) + 3(3) = 14, \\
+  [\X^T\X]_{23} &= 0(0) + 1(1) + 2(4) + 3(9) = 36, \\
+  [\X^T\X]_{33} &= 0(0) + 1(1) + 4(4) + 9(9) = 1 + 16 + 81 = 98.
+\end{align*}
+By symmetry, $[\X^T\X]_{21} = 6$, $[\X^T\X]_{31} = 14$, and $[\X^T\X]_{32} = 36$. Thus:
+\begin{equation}
+  \boxed{\X^T\X = \begin{bmatrix}
+    4 & 6 & 14 \\
+    6 & 14 & 36 \\
+    14 & 36 & 98
+  \end{bmatrix}.}
+\end{equation}
+
+\subsection{Computing the Moment Vector \texorpdfstring{$\X^T\y$}{X\textasciicircum T y}}
+Multiplying $\X^T$ by the target vector $\y$:
+\begin{equation}
+  \X^T\y = \begin{bmatrix}
+    1 & 1 & 1 & 1 \\
+    0 & 1 & 2 & 3 \\
+    0 & 1 & 4 & 9
+  \end{bmatrix}
+  \begin{bmatrix}
+    2 \\ 5 \\ 6 \\ 12
+  \end{bmatrix}
+  = \begin{bmatrix}
+    1(2) + 1(5) + 1(6) + 1(12) \\
+    0(2) + 1(5) + 2(6) + 3(12) \\
+    0(2) + 1(5) + 4(6) + 9(12)
+  \end{bmatrix}
+  = \boxed{\begin{bmatrix}
+    25 \\ 53 \\ 137
+  \end{bmatrix}.}
+\end{equation}
+
+\subsection{Matrix Inversion and Coefficient Estimation}
+We invert the $3 \times 3$ matrix $\X^T\X$. First, we compute the determinant:
+\begin{align}
+  \det(\X^T\X) &= 4 \left( 14 \cdot 98 - 36^2 \right) - 6 \left( 6 \cdot 98 - 36 \cdot 14 \right) + 14 \left( 6 \cdot 36 - 14 \cdot 14 \right) \nonumber \\
+               &= 4(1372 - 1296) - 6(588 - 504) + 14(216 - 196) \nonumber \\
+               &= 4(76) - 6(84) + 14(20) = 304 - 504 + 280 = 80.
+\end{align}
+Computing the adjugate matrix and dividing by $\det = 80$ yields the exact inverse:
+\begin{equation}
+  (\X^T\X)^{-1} = \frac{1}{80} \begin{bmatrix}
+    76 & -84 & 20 \\
+    -84 & 196 & -60 \\
+    20 & -60 & 20
+  \end{bmatrix}
+  = \begin{bmatrix}
+    \frac{19}{20} & -\frac{21}{20} & \frac{1}{4} \\[4pt]
+    -\frac{21}{20} & \frac{49}{20} & -\frac{3}{4} \\[4pt]
+    \frac{1}{4} & -\frac{3}{4} & \frac{1}{4}
+  \end{bmatrix}.
+\end{equation}
+
+Now we calculate the coefficient vector $\bhat = (\X^T\X)^{-1}\X^T\y$:
+\begin{equation}
+  \bhat = \begin{bmatrix}
+    \frac{19}{20} & -\frac{21}{20} & \frac{1}{4} \\[4pt]
+    -\frac{21}{20} & \frac{49}{20} & -\frac{3}{4} \\[4pt]
+    \frac{1}{4} & -\frac{3}{4} & \frac{1}{4}
+  \end{bmatrix}
+  \begin{bmatrix}
+    25 \\ 53 \\ 137
+  \end{bmatrix}.
+\end{equation}
+Evaluating each entry explicitly:
+\begin{align*}
+  \hat{\beta}_0 &= \frac{19(25) - 21(53) + 5(137)}{20} = \frac{475 - 1113 + 685}{20} = \frac{47}{20} = \mathbf{2.35}, \\
+  \hat{\beta}_1 &= \frac{-21(25) + 49(53) - 15(137)}{20} = \frac{-525 + 2597 - 2055}{20} = \frac{17}{20} = \mathbf{0.85}, \\
+  \hat{\beta}_2 &= \frac{1(25) - 3(53) + 1(137)}{4} = \frac{25 - 159 + 137}{4} = \frac{3}{4} = \mathbf{0.75}.
+\end{align*}
+Hence:
+\begin{equation}
+  \boxed{\bhat = \begin{bmatrix} 2.35 \\ 0.85 \\ 0.75 \end{bmatrix}.}
+\end{equation}
+The optimal fitted polynomial regression equation is:
+\begin{equation}
+  \boxed{\hat{y} = 2.35 + 0.85x + 0.75x^2.}
+\end{equation}
+
+\subsection{Predictions, Residual Analysis, and RSS}
+We now calculate the fitted predictions $\hat{y}_i$ and residuals $e_i = y_i - \hat{y}_i$:
+\begin{itemize}
+  \item $x_1 = 0 \implies \hat{y}_1 = 2.35 + 0.85(0) + 0.75(0)^2 = 2.35 \implies e_1 = 2 - 2.35 = \mathbf{-0.35}$.
+  \item $x_2 = 1 \implies \hat{y}_2 = 2.35 + 0.85(1) + 0.75(1)^2 = 3.95 \implies e_2 = 5 - 3.95 = \mathbf{+1.05}$.
+  \item $x_3 = 2 \implies \hat{y}_3 = 2.35 + 0.85(2) + 0.75(2)^2 = 7.05 \implies e_3 = 6 - 7.05 = \mathbf{-1.05}$.
+  \item $x_4 = 3 \implies \hat{y}_4 = 2.35 + 0.85(3) + 0.75(3)^2 = 11.65 \implies e_4 = 12 - 11.65 = \mathbf{+0.35}$.
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+$x_i$ & Actual $y_i$ & Predicted $\hat{y}_i$ & Residual $e_i = y_i - \hat{y}_i$ & Squared Residual $e_i^2$ \\
+\midrule
+0 & 2  & 2.35  & $-0.35$ & $0.1225$ \\
+1 & 5  & 3.95  & $+1.05$ & $1.1025$ \\
+2 & 6  & 7.05  & $-1.05$ & $1.1025$ \\
+3 & 12 & 11.65 & $+0.35$ & $0.1225$ \\
+\midrule
+\multicolumn{3}{l}{\textbf{Sum of Residuals} $\sum e_i = \mathbf{0.00}$} & \multicolumn{2}{l}{\textbf{RSS} $= \sum e_i^2 = \mathbf{2.4500}$} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.72\textwidth]{05_worked_example_fit.png}
+  \caption{Fitted quadratic model $\hat{y} = 2.35 + 0.85x + 0.75x^2$ for the 4-point worked dataset, illustrating observed points, predicted points, and the four calculated residuals.}
+  \label{fig:worked_example}
+\end{figure}
+
+\begin{worked}[title=Verification of OLS Normal Equations]
+Notice two critical mathematical properties of OLS confirmed by this calculation:
+\begin{enumerate}
+  \item \textbf{Zero sum of residuals:} $\sum_{i=1}^4 e_i = -0.35 + 1.05 - 1.05 + 0.35 = 0$.
+  \item \textbf{Orthogonality to features:} $\X^T \mathbf{e} = \mathbf{0}$. We can compute this directly:
+  \begin{equation*}
+    \X^T \mathbf{e} = \begin{bmatrix} \sum e_i \\ \sum x_i e_i \\ \sum x_i^2 e_i \end{bmatrix}
+    = \begin{bmatrix} -0.35 + 1.05 - 1.05 + 0.35 \\ 0(-0.35) + 1(1.05) + 2(-1.05) + 3(0.35) \\ 0(-0.35) + 1(1.05) + 4(-1.05) + 9(0.35) \end{bmatrix}
+    = \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}.
+  \end{equation*}
+\end{enumerate}
+\end{worked}
+
+
+% ==============================================================================
+\section{Multivariate Polynomials \& Feature Transformation}
+% ==============================================================================
+
+\subsection{Multivariate Polynomial Expansion}
+In practical applications, real-world targets depend on multiple predictor variables. For example, predicting residential real estate prices $y$ using both interior living area ($X_1$) and the number of bedrooms ($X_2$).
+
+A standard linear model assumes independent, additive linear contributions:
+\begin{equation}
+  \hat{y} = \beta_0 + \beta_1 X_1 + \beta_2 X_2.
+\end{equation}
+If we expand this to a degree-2 polynomial without interactions, we obtain:
+\begin{equation}
+  \hat{y} = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1^2 + \beta_4 X_2^2.
+\end{equation}
+
+\subsection{Interaction Terms: Modeling Synergistic Relationships}
+Pure power terms ($X_1^2, X_2^2$) capture curvature along individual variable axes. However, they assume that the effect of $X_1$ on $y$ is entirely independent of the value of $X_2$. In reality, an additional 500 square feet of living space has a vastly different market valuation in a 1-bedroom apartment than in a 5-bedroom home.
+
+To capture this interdependency, we introduce the \textbf{interaction term} $X_1 X_2$:
+\begin{equation}
+  \boxed{\hat{y} = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1^2 + \beta_4 X_2^2 + \beta_5 X_1 X_2.}
+  \label{eq:bivariate_full}
+\end{equation}
+
+\begin{intuition}[title=Interpreting Interaction Terms via Partial Derivatives]
+Taking the partial derivative of $\hat{y}$ in Equation~\eqref{eq:bivariate_full} with respect to $X_1$:
+\begin{equation}
+  \frac{\partial \hat{y}}{\partial X_1} = \beta_1 + 2\beta_3 X_1 + \beta_5 X_2.
+\end{equation}
+The marginal rate of change of $\hat{y}$ with respect to $X_1$ now explicitly depends on the level of $X_2$! When $\beta_5 \neq 0$, the variables interact synergistically.
+\end{intuition}
+
+\subsection{The Combinatorial Explosion of Feature Space}
+How many total features are generated when applying a degree-$d$ polynomial expansion to $p$ original continuous variables?
+
+\begin{keyidea}[title=Feature Dimension Formula]
+For $p$ original input variables and a maximum total polynomial degree $d$, the total number of terms (including the constant intercept $1$ and all cross-product interaction terms $\prod_{k=1}^p X_k^{d_k}$ with $\sum d_k \leq d$) is given by the combination with repetition formula:
+\begin{equation}
+  D = \binom{p + d}{d} = \frac{(p + d)!}{p! \, d!}.
+  \label{eq:poly_count}
+\end{equation}
+\end{keyidea}
+
+Let us examine how quickly this dimension grows:
+\begin{center}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{cccccc}
+\toprule
+Original Features ($p$) & Degree $d=1$ & Degree $d=2$ & Degree $d=3$ & Degree $d=4$ & Degree $d=5$ \\
+\midrule
+1  & 2   & 3    & 4     & 5     & 6 \\
+2  & 3   & 6    & 10    & 15    & 21 \\
+5  & 6   & 21   & 56    & 126   & 252 \\
+10 & 11  & 66   & 286   & 1,001 & 3,003 \\
+20 & 21  & 231  & 1,771 & 10,626& 53,130 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{warningbox}[title=The Curse of Dimensionality in Polynomial Expansion]
+With only $p=10$ input features and degree $d=5$, the model expands into $3{,}003$ columns. If the training sample size $n < 3{,}003$, the Gram matrix $\X^T\X$ is rank-deficient and singular, making ordinary least squares impossible without regularization.
+\end{warningbox}
+
+\subsection{Data Leakage Prevention during Transformation}
+When performing train-test splits, feature transformations must be managed strictly to prevent \textbf{data leakage}:
+\begin{enumerate}
+  \item \textbf{Step 1: Partition first.} Always split raw data into training ($\mathcal{D}_{\text{train}}$) and test ($\mathcal{D}_{\text{test}}$) sets before fitting any transformations.
+  \item \textbf{Step 2: Fit on train only.} Compute transformation parameters (such as mean and variance during feature standardization) exclusively on $\mathcal{D}_{\text{train}}$.
+  \item \textbf{Step 3: Transform test deterministically.} Apply the fitted mapping to $\mathcal{D}_{\text{test}}$ without re-estimating parameters.
+\end{enumerate}
+
+
+% ==============================================================================
+\section{Bias-Variance Trade-off, Overfitting \& Regularization}
+% ==============================================================================
+
+\subsection{Underfitting vs.\ Optimal Fit vs.\ Overfitting}
+The choice of polynomial degree $d$ acts as the direct complexity dial of the model:
+\begin{itemize}
+  \item \textbf{Underfitting (High Bias, Low Variance, e.g., $d=1$):} The hypothesis space is overly restrictive. The model cannot capture the true underlying non-linear manifold, resulting in high training error and high generalization error.
+  \item \textbf{Optimal Fit (Balanced Bias and Variance, e.g., $d=3$):} The model captures the true functional signal while smoothing over random noise fluctuations.
+  \item \textbf{Overfitting (Low Bias, High Variance, e.g., $d=12$):} With $d$ excessively large, the model has enough degrees of freedom to interpolate training points exactly ($\RSS \to 0$), capturing sample-specific noise.
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.98\textwidth]{03_underfitting_optimal_overfitting.png}
+  \caption{Comparison of polynomial fits on noisy data ($n=12$). Underfitting ($d=1$) fails to capture curvature; optimal fit ($d=4$) mirrors the true underlying cosine signal; overfitting ($d=11$) passes through every point but oscillates violently between samples.}
+  \label{fig:under_opt_over}
+\end{figure}
+
+\begin{warningbox}[title=Runge's Phenomenon and Boundary Oscillations]
+High-degree polynomial interpolation on equally spaced points is notorious for \textbf{Runge's Phenomenon}: the fitted curve develops violent, high-frequency oscillations near the boundaries of the input interval. Predicting outside or even near the edges of the observed training range with high-degree polynomials leads to catastrophic extrapolation errors.
+\end{warningbox}
+
+\subsection{The Bias-Variance Decomposition}
+Formally, let the true data-generating process be $y = f(x) + \varepsilon$ with $\E[\varepsilon] = 0$ and $\Var(\varepsilon) = \sigma^2$. For a model $\hat{f}(x)$ trained on dataset $\mathcal{D}$, the expected squared prediction error at a query point $x_0$ decomposes into three orthogonal components:
+\begin{equation}
+  \E_{\mathcal{D}}\left[ \left(y - \hat{f}(x_0)\right)^2 \right] = \underbrace{\left( f(x_0) - \E[\hat{f}(x_0)] \right)^2}_{\text{Bias}^2} + \underbrace{\E\left[ \left(\hat{f}(x_0) - \E[\hat{f}(x_0)]\right)^2 \right]}_{\text{Variance}} + \underbrace{\sigma^2}_{\text{Irreducible Noise}}.
+  \label{eq:bvd}
+\end{equation}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.72\textwidth]{04_bias_variance_tradeoff.png}
+  \caption{The Bias-Variance Trade-off curve as a function of polynomial degree $d$. Training error monotonically decreases, but test error forms a U-shaped curve, identifying the optimal model complexity.}
+  \label{fig:bias_variance}
+\end{figure}
+
+As degree $d$ increases:
+\begin{itemize}
+  \item $\text{Bias}^2$ decreases monotonically because higher-order polynomials subsume lower-order polynomials.
+  \item $\text{Variance}$ increases rapidly because coefficient estimates become hypersensitive to minor shifts in training samples.
+  \item The total generalization error achieves a minimum at the sweet spot where the marginal decrease in squared bias equals the marginal increase in variance.
+\end{itemize}
+
+\subsection{Regularization: Taming Complex Polynomials}
+Rather than manually searching for a single scalar degree $d$, an elegant modern approach is to allow a flexible polynomial degree (e.g., $d=8$ or $10$) while constraining coefficient magnitudes via \textbf{regularization}.
+
+\subsubsection{Ridge Regression (\texorpdfstring{$L_2$}{L2} Penalty) with Polynomial Features}
+Ridge regression modifies the OLS objective by adding an $L_2$ shrinkage penalty:
+\begin{equation}
+  J_{\text{Ridge}}(\bta) = \sum_{i=1}^n \left( y_i - \phi(x_i)\bta \right)^2 + \lambda \sum_{j=1}^d \beta_j^2, \quad \lambda \geq 0.
+\end{equation}
+Notice that the intercept $\beta_0$ is unpenalized. In matrix form:
+\begin{equation}
+  \boxed{\bhat_{\text{Ridge}} = (\X^T\X + \lambda \mathbf{P})^{-1} \X^T\y,}
+\end{equation}
+where $\mathbf{P} = \operatorname{diag}(0, 1, 1, \dots, 1) \in \RR^{(d+1) \times (d+1)}$. The penalty adds $\lambda$ to the diagonal of the feature Gram matrix, ensuring invertibility and shrinking high-frequency oscillations.
+
+\subsubsection{Lasso Regression (\texorpdfstring{$L_1$}{L1} Penalty) for Feature Selection}
+Lasso replaces the squared penalty with an $L_1$ absolute value norm:
+\begin{equation}
+  J_{\text{Lasso}}(\bta) = \sum_{i=1}^n \left( y_i - \phi(x_i)\bta \right)^2 + \lambda \sum_{j=1}^d \abs{\beta_j}.
+\end{equation}
+Due to the geometry of the $L_1$ ball, Lasso forces unneeded higher-order coefficients to become \textbf{exactly zero}, automatically performing polynomial degree and interaction pruning.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\textwidth]{06_regularization_comparison.png}
+  \caption{Comparison of high-degree ($d=9$) polynomial fits with and without regularization. Unregularized OLS swings violently; Ridge ($L_2$) produces a smooth, stable curve; Lasso ($L_1$) prunes non-essential higher powers.}
+  \label{fig:reg_comp}
+\end{figure}
+
+\subsection{The Absolute Necessity of Feature Scaling}
+When we compute powers of a feature (e.g., $x, x^2, x^3, \dots, x^d$), the numerical scales diverge exponentially:
+If $x \in [1, 100]$, then $x^2 \in [1, 10{,}000]$ and $x^4 \in [1, 10^8]$. 
+\begin{itemize}
+  \item In unregularized OLS, severe numerical roundoff and condition numbers $\kappa(\X^T\X) \gg 10^{15}$ cause total loss of arithmetic precision.
+  \item In regularized regression (Ridge and Lasso), the uniform penalty $\lambda \sum \beta_j^2$ disproportionately crushes coefficients of higher-power terms simply because their unscaled features are huge.
+\end{itemize}
+Therefore, \textbf{standardization ($z$-score scaling) after polynomial expansion is mandatory}:
+\begin{equation}
+  z_j = \frac{x^j - \mu_j}{\sigma_j}.
+\end{equation}
+
+
+% ==============================================================================
+\section{Revision Sheet \& Self-Test}
+% ==============================================================================
+
+\subsection{The Essential Formulas}
+\begin{align*}
+  \text{Univariate Model:}\quad& y = \beta_0 + \beta_1 x + \beta_2 x^2 + \dots + \beta_d x^d + \varepsilon \\
+  \text{Vandermonde Matrix:}\quad& \X = \begin{bmatrix} 1 & x_i & x_i^2 & \dots & x_i^d \end{bmatrix}_{i=1}^n \in \RR^{n \times (d+1)} \\
+  \text{Matrix OLS Formulation:}\quad& \y = \X\bta + \eps \\
+  \text{Normal Equations:}\quad& \X^T\X\bta = \X^T\y \\
+  \text{OLS Solution:}\quad& \bhat = (\X^T\X)^{-1}\X^T\y \\
+  \text{Bivariate Model with Interaction:}\quad& \hat{y} = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1^2 + \beta_4 X_2^2 + \beta_5 X_1 X_2 \\
+  \text{Total Features Formula:}\quad& D = \binom{p + d}{d} = \frac{(p+d)!}{p! \, d!} \\
+  \text{Ridge Regularized Solution:}\quad& \bhat_{\text{Ridge}} = (\X^T\X + \lambda \mathbf{P})^{-1}\X^T\y \\
+  \text{Bias-Variance Decomposition:}\quad& \E[(y - \hat{f})^2] = \text{Bias}^2 + \Var(\hat{f}) + \sigma^2
+\end{align*}
+
+\subsection{Conceptual Checklist}
+\begin{itemize}
+  \item \textbf{Why Linear:} Polynomial regression is linear in parameters $\bta$, allowing ordinary convex quadratic optimization via standard OLS normal equations.
+  \item \textbf{Curvature vs.\ Degree:} A polynomial of degree $d$ can exhibit at most $d-1$ turning points.
+  \item \textbf{Interaction Terms:} Cross-product terms $X_1 X_2$ allow the marginal sensitivity $\frac{\partial \hat{y}}{\partial X_1}$ to depend on the magnitude of $X_2$.
+  \item \textbf{Extrapolation Danger:} High-degree polynomials suffer from Runge's phenomenon at boundaries; never use them for long-range forecasting.
+  \item \textbf{Feature Scaling:} High powers create extreme disparities in column magnitude, mandating $z$-score scaling when regularizing.
+\end{itemize}
+
+\subsection{Self-Test Questions}
+\begin{enumerate}
+  \item Explain why the model $y = \beta_0 + \beta_1 x + \beta_2 x^2 + \varepsilon$ is a linear regression model, whereas $y = \beta_0 e^{\beta_1 x} + \varepsilon$ is not.
+  \item If an input dataset has $p=4$ features and we apply a polynomial expansion of degree $d=3$, how many total features (including the intercept) are generated?
+  \item What happens to the condition number of the Gram matrix $\X^T\X$ as polynomial degree $d$ increases on unscaled features, and how does this affect numerical stability?
+  \item Why does an unregularized polynomial model of degree $d=n-1$ always achieve $\RSS = 0$ on a dataset with $n$ distinct points, and why is this problematic for generalization?
+  \item How do Ridge and Lasso regularization differ when applied to a high-degree polynomial feature matrix?
+\end{enumerate}
+
+\subsection{Short Answers}
+\begin{enumerate}
+  \item The first model is linear with respect to its unknown parameters $\beta_0, \beta_1, \beta_2$. The partial derivatives $\frac{\partial \hat{y}}{\partial \beta_j}$ do not depend on any $\beta$. In contrast, in the exponential model, $\frac{\partial \hat{y}}{\partial \beta_1} = \beta_0 x e^{\beta_1 x}$, which depends nonlinearly on $\beta_1$ and $\beta_0$.
+  \item Using the formula $D = \binom{p+d}{d} = \binom{4+3}{3} = \binom{7}{3} = \frac{7 \times 6 \times 5}{3 \times 2 \times 1} = \mathbf{35}$ total features.
+  \item The condition number $\kappa(\X^T\X)$ explodes rapidly toward infinity because columns $x^k$ and $x^{k+1}$ are highly collinear and their magnitudes differ by orders of magnitude. This makes the matrix ill-conditioned, causing extreme numerical errors during matrix inversion.
+  \item By the Fundamental Theorem of Algebra, any $n$ distinct points with unique $x_i$ can be uniquely interpolated by an $(n-1)$-th degree polynomial. While $\RSS = 0$ on training data, the function oscillates wildly between points (overfitting / high variance), leading to massive test errors.
+  \item Ridge ($L_2$) shrinks all polynomial coefficients toward zero smoothly, dampening high-frequency oscillations while keeping all powers active. Lasso ($L_1$) shrinks coefficients and sets non-informative powers to exact zeros, performing automatic polynomial term selection.
+\end{enumerate}
+
+\begin{keyidea}[title=Final Mental Model]
+Polynomial regression is simply multiple linear regression performed on a nonlinearly transformed basis. Treat the polynomial degree $d$ as a hyperparameter controlling capacity: keep $d$ modest, always standardize features, and combine with Ridge or Lasso regularization to harvest curvature without succumbing to runaway variance.
+\end{keyidea}
+
+\end{document}
