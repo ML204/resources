@@ -41,16 +41,6 @@ All resources follow the 3-tier hierarchy mirroring the core curriculum:
 | **File I/O, JSON and CSV** | [`programming-and-tools/python-fundamentals/file-io-json-csv`](./programming-and-tools/python-fundamentals/file-io-json-csv) | _Template_ |
 | **Error Handling and Virtual Environments** | [`programming-and-tools/python-fundamentals/error-handling-virtualenv`](./programming-and-tools/python-fundamentals/error-handling-virtualenv) | _Template_ |
 
-#### Development Environment
-
-| Topic | Folder Link | Available Files |
-| :--- | :--- | :--- |
-| **Installing Python & Package Managers** | [`programming-and-tools/dev-environment/python-installation-tooling`](./programming-and-tools/dev-environment/python-installation-tooling) | _Template_ |
-| **Virtual Environments — venv & Conda** | [`programming-and-tools/dev-environment/virtual-environments-venv-conda`](./programming-and-tools/dev-environment/virtual-environments-venv-conda) | _Template_ |
-| **Jupyter Notebook & JupyterLab** | [`programming-and-tools/dev-environment/jupyter-notebooks`](./programming-and-tools/dev-environment/jupyter-notebooks) | _Template_ |
-| **VS Code Setup for Machine Learning** | [`programming-and-tools/dev-environment/ml-editor-setup`](./programming-and-tools/dev-environment/ml-editor-setup) | _Template_ |
-| **pip and requirements.txt** | [`programming-and-tools/dev-environment/pip-and-dependencies`](./programming-and-tools/dev-environment/pip-and-dependencies) | _Template_ |
-
 #### NumPy Array Programming
 
 | Topic | Folder Link | Available Files |
