@@ -20,6 +20,7 @@ All resources follow the 3-tier hierarchy mirroring the core curriculum:
               ├── <Topic_Notes>.tex
               ├── <Topic_Notes>.pdf
               ├── <Topic_Summary>.md
+              ├── <Notebook>.ipynb
               └── README.md
 ```
 
@@ -34,42 +35,42 @@ All resources follow the 3-tier hierarchy mirroring the core curriculum:
 
 | Topic | Folder Link | Available Files |
 | :--- | :--- | :--- |
-| **Variables, Loops and Functions** | [`programming-and-tools/python-fundamentals/variables-loops-functions`](./programming-and-tools/python-fundamentals/variables-loops-functions) | _Template_ |
-| **Lists, Dictionaries, Sets and Tuples** | [`programming-and-tools/python-fundamentals/python-data-structures`](./programming-and-tools/python-fundamentals/python-data-structures) | _Template_ |
-| **List Comprehensions and Generators** | [`programming-and-tools/python-fundamentals/comprehensions-generators`](./programming-and-tools/python-fundamentals/comprehensions-generators) | _Template_ |
-| **Classes and Objects** | [`programming-and-tools/python-fundamentals/classes-and-objects`](./programming-and-tools/python-fundamentals/classes-and-objects) | _Template_ |
-| **File I/O, JSON and CSV** | [`programming-and-tools/python-fundamentals/file-io-json-csv`](./programming-and-tools/python-fundamentals/file-io-json-csv) | _Template_ |
+| **Variables, Loops and Functions** | [`programming-and-tools/python-fundamentals/variables-loops-functions`](./programming-and-tools/python-fundamentals/variables-loops-functions) | `Python_Functions_and_Scopes_Reference.py`, `Python_Variables_Loops_and_Functions_Guide.ipynb` |
+| **Lists, Dictionaries, Sets and Tuples** | [`programming-and-tools/python-fundamentals/python-data-structures`](./programming-and-tools/python-fundamentals/python-data-structures) | `Python_Lists_Tuples_and_Arrays_Reference.py` |
+| **List Comprehensions and Generators** | [`programming-and-tools/python-fundamentals/comprehensions-generators`](./programming-and-tools/python-fundamentals/comprehensions-generators) | `Python_List_Comprehensions_and_Lambdas.py` |
+| **Classes and Objects** | [`programming-and-tools/python-fundamentals/classes-and-objects`](./programming-and-tools/python-fundamentals/classes-and-objects) | `Python_Classes_and_Objects_Reference.py` |
+| **File I/O, JSON and CSV** | [`programming-and-tools/python-fundamentals/file-io-json-csv`](./programming-and-tools/python-fundamentals/file-io-json-csv) | `Python_File_IO_and_CSV_Processing.py` |
 | **Error Handling and Virtual Environments** | [`programming-and-tools/python-fundamentals/error-handling-virtualenv`](./programming-and-tools/python-fundamentals/error-handling-virtualenv) | _Template_ |
 
 #### NumPy Array Programming
 
 | Topic | Folder Link | Available Files |
 | :--- | :--- | :--- |
-| **Arrays, Shapes and Data Types** | [`programming-and-tools/numpy/numpy-arrays-and-shapes`](./programming-and-tools/numpy/numpy-arrays-and-shapes) | _Template_ |
-| **Indexing, Slicing and Strides** | [`programming-and-tools/numpy/numpy-indexing-and-slicing`](./programming-and-tools/numpy/numpy-indexing-and-slicing) | _Template_ |
-| **Array Broadcasting Rules** | [`programming-and-tools/numpy/numpy-broadcasting`](./programming-and-tools/numpy/numpy-broadcasting) | _Template_ |
-| **Vectorized Operations Without Loops** | [`programming-and-tools/numpy/numpy-vectorization`](./programming-and-tools/numpy/numpy-vectorization) | _Template_ |
-| **Linear Algebra Operations in NumPy** | [`programming-and-tools/numpy/numpy-linear-algebra`](./programming-and-tools/numpy/numpy-linear-algebra) | _Template_ |
+| **Arrays, Shapes and Data Types** | [`programming-and-tools/numpy/numpy-arrays-and-shapes`](./programming-and-tools/numpy/numpy-arrays-and-shapes) | `NumPy_Arrays_and_Shapes_Comprehensive_Guide.ipynb`, `NumPy_Arrays_and_Shapes_Exercise_Solutions.ipynb`, `NumPy_Arrays_and_Shapes_Practice_Exercise.ipynb` |
+| **Indexing, Slicing and Strides** | [`programming-and-tools/numpy/numpy-indexing-and-slicing`](./programming-and-tools/numpy/numpy-indexing-and-slicing) | `NumPy_Indexing_and_Data_Manipulation_Guide.ipynb`, `NumPy_Indexing_and_Data_Manipulation_Solutions.ipynb` |
+| **Array Broadcasting Rules** | [`programming-and-tools/numpy/numpy-broadcasting`](./programming-and-tools/numpy/numpy-broadcasting) | `NumPy_Array_Broadcasting_and_Operations_Homework.ipynb` |
+| **Vectorized Operations Without Loops** | [`programming-and-tools/numpy/numpy-vectorization`](./programming-and-tools/numpy/numpy-vectorization) | `NumPy_Vectorized_Operations_and_Distance_Exercise.ipynb`, `NumPy_Vectorized_Operations_and_Distance_Solutions.ipynb` |
+| **Linear Algebra Operations in NumPy** | [`programming-and-tools/numpy/numpy-linear-algebra`](./programming-and-tools/numpy/numpy-linear-algebra) | `NumPy_Linear_Algebra_and_Normal_Equation_Exercise.ipynb`, `NumPy_Linear_Algebra_and_Normal_Equation_Solutions.ipynb` |
 
 #### Data Analysis with pandas
 
 | Topic | Folder Link | Available Files |
 | :--- | :--- | :--- |
-| **Series and DataFrames** | [`programming-and-tools/pandas/pandas-series-and-dataframes`](./programming-and-tools/pandas/pandas-series-and-dataframes) | _Template_ |
-| **Loading CSV, Excel and JSON** | [`programming-and-tools/pandas/pandas-data-ingestion`](./programming-and-tools/pandas/pandas-data-ingestion) | _Template_ |
-| **Selecting, Filtering and Sorting** | [`programming-and-tools/pandas/pandas-filtering-and-sorting`](./programming-and-tools/pandas/pandas-filtering-and-sorting) | _Template_ |
-| **groupby and Aggregations** | [`programming-and-tools/pandas/pandas-groupby-and-aggregations`](./programming-and-tools/pandas/pandas-groupby-and-aggregations) | _Template_ |
-| **Merging, Joining and Concatenating** | [`programming-and-tools/pandas/pandas-joins-and-merges`](./programming-and-tools/pandas/pandas-joins-and-merges) | _Template_ |
+| **Series and DataFrames** | [`programming-and-tools/pandas/pandas-series-and-dataframes`](./programming-and-tools/pandas/pandas-series-and-dataframes) | `Pandas_Series_and_DataFrames_Comprehensive_Guide.ipynb`, `Pandas_Series_and_DataFrames_Exercise_Solutions.ipynb`, `Pandas_Series_and_DataFrames_Practice_Exercise.ipynb` |
+| **Loading CSV, Excel and JSON** | [`programming-and-tools/pandas/pandas-data-ingestion`](./programming-and-tools/pandas/pandas-data-ingestion) | `Pandas_Data_Ingestion_and_Cleaning_Guide.ipynb`, `Pandas_Data_Ingestion_and_Cleaning_Solutions.ipynb` |
+| **Selecting, Filtering and Sorting** | [`programming-and-tools/pandas/pandas-filtering-and-sorting`](./programming-and-tools/pandas/pandas-filtering-and-sorting) | `Pandas_Selecting_Filtering_and_Sorting_Exercise.ipynb`, `Pandas_Selecting_Filtering_and_Sorting_Solutions.ipynb` |
+| **groupby and Aggregations** | [`programming-and-tools/pandas/pandas-groupby-and-aggregations`](./programming-and-tools/pandas/pandas-groupby-and-aggregations) | `Pandas_GroupBy_and_Aggregations_Homework.ipynb` |
+| **Merging, Joining and Concatenating** | [`programming-and-tools/pandas/pandas-joins-and-merges`](./programming-and-tools/pandas/pandas-joins-and-merges) | `Pandas_Merging_Joining_and_Concatenating_Exercise.ipynb`, `Pandas_Merging_Joining_and_Concatenating_Solutions.ipynb` |
 | **Handling Dates and Time Series** | [`programming-and-tools/pandas/pandas-time-series`](./programming-and-tools/pandas/pandas-time-series) | _Template_ |
 
 #### Data Visualization
 
 | Topic | Folder Link | Available Files |
 | :--- | :--- | :--- |
-| **Matplotlib Fundamentals** | [`programming-and-tools/visualization/matplotlib-fundamentals`](./programming-and-tools/visualization/matplotlib-fundamentals) | _Template_ |
-| **Statistical Plots with Seaborn** | [`programming-and-tools/visualization/seaborn-statistical-graphics`](./programming-and-tools/visualization/seaborn-statistical-graphics) | _Template_ |
-| **Histograms, Scatter, Box and Heatmaps** | [`programming-and-tools/visualization/diagnostic-charts`](./programming-and-tools/visualization/diagnostic-charts) | _Template_ |
-| **Plotting Model Results & Diagnostics** | [`programming-and-tools/visualization/model-evaluation-plots`](./programming-and-tools/visualization/model-evaluation-plots) | _Template_ |
+| **Matplotlib Fundamentals** | [`programming-and-tools/visualization/matplotlib-fundamentals`](./programming-and-tools/visualization/matplotlib-fundamentals) | `Matplotlib_Fundamentals_Comprehensive_Guide.ipynb`, `Matplotlib_Fundamentals_Exercise_Solutions.ipynb`, `Matplotlib_Fundamentals_Practice_Exercise.ipynb` |
+| **Statistical Plots with Seaborn** | [`programming-and-tools/visualization/seaborn-statistical-graphics`](./programming-and-tools/visualization/seaborn-statistical-graphics) | `Seaborn_Statistical_Plots_Case_Study.ipynb`, `Seaborn_Statistical_Plots_Case_Study_Solutions.ipynb` |
+| **Histograms, Scatter, Box and Heatmaps** | [`programming-and-tools/visualization/diagnostic-charts`](./programming-and-tools/visualization/diagnostic-charts) | `Diagnostic_Charts_and_Heatmaps_Exercise.ipynb`, `Diagnostic_Charts_and_Heatmaps_Solutions.ipynb` |
+| **Plotting Model Results & Diagnostics** | [`programming-and-tools/visualization/model-evaluation-plots`](./programming-and-tools/visualization/model-evaluation-plots) | `Model_Evaluation_and_Diagnostic_Plots_Homework.ipynb` |
 
 #### Git and SQL for ML
 
@@ -86,7 +87,7 @@ All resources follow the 3-tier hierarchy mirroring the core curriculum:
 
 | Topic | Folder Link | Available Files |
 | :--- | :--- | :--- |
-| **Vectors and Matrices** | [`math-foundations/linear-algebra/vectors-and-matrices`](./math-foundations/linear-algebra/vectors-and-matrices) | _Template_ |
+| **Vectors and Matrices** | [`math-foundations/linear-algebra/vectors-and-matrices`](./math-foundations/linear-algebra/vectors-and-matrices) | `Vectors_and_Matrices_Summary.md` |
 | **Dot Product and Matrix Multiplication** | [`math-foundations/linear-algebra/dot-product-matrix-multiply`](./math-foundations/linear-algebra/dot-product-matrix-multiply) | _Template_ |
 | **Transpose, Inverse and Determinant** | [`math-foundations/linear-algebra/transpose-inverse-determinant`](./math-foundations/linear-algebra/transpose-inverse-determinant) | _Template_ |
 | **Norms — L1 and L2** | [`math-foundations/linear-algebra/norms`](./math-foundations/linear-algebra/norms) | _Template_ |
@@ -102,7 +103,7 @@ All resources follow the 3-tier hierarchy mirroring the core curriculum:
 | **Gradients and the Jacobian** | [`math-foundations/calculus/gradients-and-jacobian`](./math-foundations/calculus/gradients-and-jacobian) | _Template_ |
 | **What is Optimization?** | [`math-foundations/calculus/what-is-optimization`](./math-foundations/calculus/what-is-optimization) | _Template_ |
 | **Loss Functions** | [`math-foundations/calculus/loss-functions`](./math-foundations/calculus/loss-functions) | _Template_ |
-| **Gradient Descent** | [`math-foundations/calculus/gradient-descent`](./math-foundations/calculus/gradient-descent) | _Template_ |
+| **Gradient Descent** | [`math-foundations/calculus/gradient-descent`](./math-foundations/calculus/gradient-descent) | `Gradient_Descent_Summary.md` |
 | **Learning Rate and Convergence** | [`math-foundations/calculus/learning-rate`](./math-foundations/calculus/learning-rate) | _Template_ |
 | **SGD vs Batch Gradient Descent** | [`math-foundations/calculus/sgd-vs-batch`](./math-foundations/calculus/sgd-vs-batch) | _Template_ |
 
@@ -180,11 +181,11 @@ All resources follow the 3-tier hierarchy mirroring the core curriculum:
 
 | Topic | Folder Link | Available Files |
 | :--- | :--- | :--- |
-| **Linear Regression** | [`classical-ml/supervised-regression/linear-regression`](./classical-ml/supervised-regression/linear-regression) | _Template_ |
-| **Ordinary Least Squares (OLS)** | [`classical-ml/supervised-regression/ordinary-least-squares`](./classical-ml/supervised-regression/ordinary-least-squares) | _Template_ |
-| **Polynomial Regression** | [`classical-ml/supervised-regression/polynomial-regression`](./classical-ml/supervised-regression/polynomial-regression) | _Template_ |
-| **Ridge Regression** | [`classical-ml/supervised-regression/ridge-regression`](./classical-ml/supervised-regression/ridge-regression) | _Template_ |
-| **Lasso Regression** | [`classical-ml/supervised-regression/lasso-regression`](./classical-ml/supervised-regression/lasso-regression) | _Template_ |
+| **Linear Regression** | [`classical-ml/supervised-regression/linear-regression`](./classical-ml/supervised-regression/linear-regression) | `Linear_Regression.pdf`, `Linear_Regression_Summary.md` |
+| **Ordinary Least Squares (OLS)** | [`classical-ml/supervised-regression/ordinary-least-squares`](./classical-ml/supervised-regression/ordinary-least-squares) | `OLS.pdf`, `OLS_matrix_notes.tex`, `Ordinary_Least_Squares_Summary.md` |
+| **Polynomial Regression** | [`classical-ml/supervised-regression/polynomial-regression`](./classical-ml/supervised-regression/polynomial-regression) | `Polynomial_Regression.pdf`, `Polynomial_Regression.tex` |
+| **Ridge Regression** | [`classical-ml/supervised-regression/ridge-regression`](./classical-ml/supervised-regression/ridge-regression) | `Ridge_Regression_Notes.tex`, `Ridge_Regression_Summary.md`, `Ridge_regression.pdf` |
+| **Lasso Regression** | [`classical-ml/supervised-regression/lasso-regression`](./classical-ml/supervised-regression/lasso-regression) | `Lasso_Regression.pdf`, `Lasso_Regression_Notes.tex`, `Lasso_Regression_Summary.md` |
 
 #### Supervised — Classification
 
@@ -387,7 +388,7 @@ We welcome contributions of mathematical derivations, concise summary sheets, Py
 
 1. **LaTeX Guidelines**:
    - Use standard AMS-LaTeX packages (`amsmath`, `amsfonts`, `amssymb`, `mathtools`).
-   - Keep vector notation consistent: bold lowercase for vectors ($\\mathbf{w}$), bold uppercase for matrices ($\\mathbf{X}$).
+   - Keep vector notation consistent: bold lowercase for vectors ($mathbf{w}$), bold uppercase for matrices ($mathbf{X}$).
    - Keep the corresponding compiled `.pdf` alongside the `.tex` source.
 2. **Pull Requests**:
    - Locate the target `<part>/<chapter>/<topic>/` folder.
