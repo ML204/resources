@@ -40,7 +40,7 @@ All resources follow the 3-tier hierarchy mirroring the core curriculum:
 | **List Comprehensions and Generators** | [`programming-and-tools/python-fundamentals/comprehensions-generators`](./programming-and-tools/python-fundamentals/comprehensions-generators) | `Python_List_Comprehensions_and_Lambdas.py` |
 | **Classes and Objects** | [`programming-and-tools/python-fundamentals/classes-and-objects`](./programming-and-tools/python-fundamentals/classes-and-objects) | `Python_Classes_and_Objects_Reference.py` |
 | **File I/O, JSON and CSV** | [`programming-and-tools/python-fundamentals/file-io-json-csv`](./programming-and-tools/python-fundamentals/file-io-json-csv) | `Python_File_IO_and_CSV_Processing.py` |
-| **Error Handling and Virtual Environments** | [`programming-and-tools/python-fundamentals/error-handling-virtualenv`](./programming-and-tools/python-fundamentals/error-handling-virtualenv) | _Template_ |
+| **Error Handling and Virtual Environments** | [`programming-and-tools/python-fundamentals/error-handling-virtualenv`](./programming-and-tools/python-fundamentals/error-handling-virtualenv) | `Python_Error_Handling_and_Virtualenv_Guide.py` |
 
 #### NumPy Array Programming
 
@@ -76,9 +76,9 @@ All resources follow the 3-tier hierarchy mirroring the core curriculum:
 
 | Topic | Folder Link | Available Files |
 | :--- | :--- | :--- |
-| **Git: Commits, Branches and Pull Requests** | [`programming-and-tools/git-and-sql/git-version-control`](./programming-and-tools/git-and-sql/git-version-control) | _Template_ |
-| **Structuring ML Project Repositories** | [`programming-and-tools/git-and-sql/ml-project-repository-structure`](./programming-and-tools/git-and-sql/ml-project-repository-structure) | _Template_ |
-| **SQL: SELECT, WHERE, JOIN and GROUP BY** | [`programming-and-tools/git-and-sql/sql-queries-joins-aggregations`](./programming-and-tools/git-and-sql/sql-queries-joins-aggregations) | _Template_ |
+| **Git: Commits, Branches and Pull Requests** | [`programming-and-tools/git-and-sql/git-version-control`](./programming-and-tools/git-and-sql/git-version-control) | `Git_Workflow_CheatSheet.sh` |
+| **Structuring ML Project Repositories** | [`programming-and-tools/git-and-sql/ml-project-repository-structure`](./programming-and-tools/git-and-sql/ml-project-repository-structure) | `ML_Project_Structure_Template.py` |
+| **SQL: SELECT, WHERE, JOIN and GROUP BY** | [`programming-and-tools/git-and-sql/sql-queries-joins-aggregations`](./programming-and-tools/git-and-sql/sql-queries-joins-aggregations) | `SQL_Queries_Feature_Engineering_Reference.sql` |
 
 ### 📐 Part 1: Math Foundations
 
