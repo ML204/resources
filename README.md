@@ -1,12 +1,12 @@
-# ML204 Academic & Study Resources 📚
+# MLTheta Academic & Study Resources 📚
 
-Welcome to the official study notes and resources repository for **ML204** — an interactive, mathematically rigorous machine learning curriculum.
+Welcome to the official study notes and resources repository for **MLTheta** — an interactive, mathematically rigorous machine learning curriculum.
 
 This repository holds LaTeX derivations, compiled PDFs, lecture summaries, problem sets, and notebooks organized systematically by **Part / Chapter / Subchapter**.
 
 🌐 **Interactive Web App**: [mlens-theta.vercel.app](https://mlens-theta.vercel.app)  
-📱 **Android Offline Suite**: [Latest Release v1.0.2](https://github.com/ML204/ML204-mobile/releases)  
-🏛️ **GitHub Organization**: [github.com/ML204](https://github.com/ML204)  
+📱 **Android Offline Suite**: [Latest Release v1.0.2](https://github.com/mltheta/mltheta-mobile/releases)  
+🏛️ **GitHub Organization**: [github.com/ML204](https://github.com/mltheta)  
 
 ---
 
