@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="logo.png" alt="MLTheta Logo" width="120" />
+</p>
+
 # MLTheta Academic & Study Resources 📚
 
 Welcome to the official study notes and resources repository for **MLTheta** — an interactive, mathematically rigorous machine learning curriculum.
