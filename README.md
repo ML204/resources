@@ -5,8 +5,8 @@ Welcome to the official study notes and resources repository for **MLTheta** —
 This repository holds LaTeX derivations, compiled PDFs, lecture summaries, problem sets, and notebooks organized systematically by **Part / Chapter / Subchapter**.
 
 🌐 **Interactive Web App**: [mlens-theta.vercel.app](https://mlens-theta.vercel.app)  
-📱 **Android Offline Suite**: [Latest Release v1.0.2](https://github.com/mltheta/mltheta-mobile/releases)  
-🏛️ **GitHub Organization**: [github.com/ML204](https://github.com/mltheta)  
+📱 **Android Offline Suite**: [Latest Release v1.0.3](https://github.com/mltheta/mltheta-mobile/releases)  
+🏛️ **GitHub Organization**: [github.com/mltheta](https://github.com/mltheta)  
 
 ---
 
